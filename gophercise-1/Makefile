@@ -5,7 +5,6 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 BINARY_NAME=gophercise_1
-BINARY_WIN=$(BINARY_NAME).exe
 
 all: test build
 
@@ -24,8 +23,4 @@ test:
 	$(GOTEST) -v ./pkg/...
 
 run:
-	$(GOBUILD) -o $(BINARY_NAME) -v
-	./$(BINARY_NAME)
-
-build-win:
-	CGO_ENABLED=0 GOOS=windows GOARCH=386 $(GOBUILD) -o $(BINARY_WIN) -v
+	$(GORUN) ./cmd/main.go
