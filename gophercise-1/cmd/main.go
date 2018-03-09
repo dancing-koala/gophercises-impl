@@ -2,39 +2,32 @@ package main
 
 import (
 	"bufio"
-	"bytes"
-	"encoding/csv"
 	"fmt"
-	"io"
+	"github.com/dancing-koala/gophercises-impl/gophercise-1/pkg/questions"
 	"io/ioutil"
 	"os"
 	"strings"
 )
 
-type question struct {
-	text   string
-	answer string
-}
-
 var (
-	questions []*question
+	questionList []*questions.Question
 )
 
 func main() {
-	readQuestions()
+	readQuestions("./questions.csv")
 
-	total := len(questions)
+	total := len(questionList)
 	good := 0
 
 	input := bufio.NewReader(os.Stdin)
 
 	printSeparator()
 
-	for _, q := range questions {
-		fmt.Printf("%s=", q.text)
+	for _, q := range questionList {
+		fmt.Printf("%s=", q.Text)
 		attempt, _ := input.ReadString('\n')
 
-		if checkAnswer(q, strings.Trim(attempt, "\n")) {
+		if q.VerifyAnswer(strings.Trim(attempt, "\n")) {
 			good++
 		}
 	}
@@ -48,33 +41,12 @@ func printSeparator() {
 	fmt.Println("---")
 }
 
-func checkAnswer(q *question, attempt string) bool {
-	return strings.Compare(q.answer, attempt) == 0
-}
-
-func readQuestions() {
-	rawData, err := ioutil.ReadFile("./questions.csv")
+func readQuestions(csvPath string) {
+	rawData, err := ioutil.ReadFile(csvPath)
 
 	if err != nil {
 		panic(err)
 	}
 
-	csvReader := csv.NewReader(bytes.NewReader(rawData))
-
-	for {
-		row, err := csvReader.Read()
-
-		if err == io.EOF {
-			break
-		}
-
-		if err != nil {
-			panic(err)
-		}
-
-		questions = append(questions, &question{
-			text:   row[0],
-			answer: row[1],
-		})
-	}
+	questionList = questions.ReadCsv(rawData)
 }

@@ -17,7 +17,6 @@ build_opt:
 clean:
 	$(GOCLEAN)
 	rm -f ./$(BINARY_NAME)
-	rm -f ./$(BINARY_WIN)
 
 test:
 	$(GOTEST) -v ./pkg/...
