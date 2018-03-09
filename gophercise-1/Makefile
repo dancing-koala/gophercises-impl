@@ -25,4 +25,7 @@ run:
 	$(GORUN) ./cmd/main.go
 
 run_alt:
-	$(GORUN) ./cmd/main.go --data-path="./questions_alt.csv"
+	$(GORUN) ./cmd/main.go --data-path="./problems_alt.csv"
+
+run_shuffle:
+	$(GORUN) ./cmd/main.go -shuffle

@@ -15,6 +15,19 @@ func TestVerifyAnswer_IsRight(t *testing.T) {
 	}
 }
 
+func TestVerifyAnswer_IsRightDespiteCase(t *testing.T) {
+	q := &Question{
+		Text:   "Not relevant",
+		Answer: "aAa",
+	}
+
+	a := "AAA"
+
+	if !q.VerifyAnswer(a) {
+		fail(t, "answers should match")
+	}
+}
+
 func TestVerifyAnswer_IsWrong(t *testing.T) {
 	q := &Question{
 		Text:   "Not relevant",

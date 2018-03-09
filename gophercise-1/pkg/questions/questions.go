@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/csv"
 	"io"
+	"strings"
 )
 
 type Question struct {
@@ -12,7 +13,11 @@ type Question struct {
 }
 
 func (q *Question) VerifyAnswer(a string) bool {
-	return q.Answer == a
+	return prepare(q.Answer) == prepare(a)
+}
+
+func prepare(answer string) string {
+	return strings.Trim(strings.ToLower(answer), "\n\r ")
 }
 
 func ReadCsv(csvData []byte) []*Question {
