@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"github.com/dancing-koala/gophercises-impl/gophercise-1/pkg/questions"
 	"io/ioutil"
@@ -11,34 +12,49 @@ import (
 
 var (
 	questionList []*questions.Question
+	dataPath     string
+)
+
+const (
+	DEFAULT_DATA_FILE = "./questions.csv"
 )
 
 func main() {
-	readQuestions("./questions.csv")
+	flag.StringVar(&dataPath, "data-path", DEFAULT_DATA_FILE, "Path of the file containing the questions")
+	flag.Parse()
 
-	total := len(questionList)
-	good := 0
+	readQuestions(dataPath)
 
+	right := 0
 	input := bufio.NewReader(os.Stdin)
 
 	printSeparator()
 
 	for _, q := range questionList {
-		fmt.Printf("%s=", q.Text)
 		attempt, _ := input.ReadString('\n')
 
+		printQuestion(q)
+
 		if q.VerifyAnswer(strings.Trim(attempt, "\n")) {
-			good++
+			right++
 		}
 	}
 
 	printSeparator()
-	fmt.Printf("You scored %d out of %d\n", good, total)
+	printScore(right, len(questionList))
 	printSeparator()
 }
 
 func printSeparator() {
 	fmt.Println("---")
+}
+
+func printQuestion(q *questions.Question) {
+	fmt.Printf("%s=", q.Text)
+}
+
+func printScore(right, total int) {
+	fmt.Printf("You scored %d out of %d\n", right, total)
 }
 
 func readQuestions(csvPath string) {

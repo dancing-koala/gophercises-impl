@@ -23,3 +23,6 @@ test:
 
 run:
 	$(GORUN) ./cmd/main.go
+
+run_alt:
+	$(GORUN) ./cmd/main.go --data-path="./questions_alt.csv"
