@@ -1,0 +1,8 @@
+test
+  http://localhost:5050/popoYaml
+
+popoYaml
+  http://localhost:5050/totoYaml
+
+totoYaml
+  http://localhost:5050/endYaml

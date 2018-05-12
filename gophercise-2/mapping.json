@@ -1,0 +1,5 @@
+{
+	"test": "http://localhost:5050/popoJson",
+	"popoJson": "http://localhost:5050/totoJson",
+	"totoJson": "http://localhost:5050/endJson"
+}
