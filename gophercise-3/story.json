@@ -1,0 +1,133 @@
+{
+	"intro": {
+		"title": "Introduction",
+		"story": [
+			"Left",
+			"Or",
+			"Right"
+		],
+		"options": [
+			{
+				"text": "Left",
+				"arc": "chapter1-left"
+			},
+			{
+				"text": "Right",
+				"arc": "chapter1-right"
+			}
+		]
+	},
+		"chapter1-left": {
+		"title": "Chapter 1 Left",
+		"story": [
+			"North",
+			"Or",
+			"South"
+		],
+		"options": [
+			{
+				"text": "North",
+				"arc": "chapter2-north"
+			},
+			{
+				"text": "South",
+				"arc": "chapter2-south"
+			}
+		]
+	},
+	"chapter1-right": {
+		"title": "Chapter 1 Right",
+		"story": [
+			"West",
+			"Or",
+			"East"
+		],
+		"options": [
+			{
+				"text": "West",
+				"arc": "chapter2-west"
+			},
+			{
+				"text": "East",
+				"arc": "chapter2-east"
+			}
+		]
+	},
+	"chapter2-north": {
+		"title": "Chapter 2 North",
+		"story": [
+			"Only one choice now:"
+		],
+		"options": [
+			{
+				"text": "THE END (North)",
+				"arc": "end-north"
+			}
+		]
+	},
+	"chapter2-south": {
+		"title": "Chapter 2 South",
+		"story": [
+			"Only one choice now:"
+		],
+		"options": [
+			{
+				"text": "THE END (South)",
+				"arc": "end-south"
+			}
+		]
+	},
+	"chapter2-west": {
+		"title": "Chapter 2 West",
+		"story": [
+			"Only one choice now:"
+		],
+		"options": [
+			{
+				"text": "THE END (West)",
+				"arc": "end-west"
+			}
+		]
+	},
+	"chapter2-east": {
+		"title": "Chapter 2 East",
+		"story": [
+			"Only one choice now:"
+		],
+		"options": [
+			{
+				"text": "THE END (East)",
+				"arc": "end-east"
+			}
+		]
+	},
+	"end-north": {
+		"title": "THEN END North",
+		"story": [
+			"That's all folks!"
+		],
+		"options":[]
+	},
+	"end-south": {
+		"title": "THEN END South",
+		"story": [
+			"That's all folks!"
+		],
+		"options":[]
+	},
+	"end-west": {
+		"title": "THEN END West",
+		"story": [
+			"That's all folks!"
+		],
+		"options":[]
+	},
+	"end-east": {
+		"title": "THEN END East",
+		"story": [
+			"That's all folks!"
+		],
+		"options":[]
+	}
+
+}
