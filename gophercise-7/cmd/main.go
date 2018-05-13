@@ -60,7 +60,8 @@ func main() {
 
 func handleErr(err error) {
 	if err != nil {
-		panic(err)
+		fmt.Println("Error:", err.Error())
+		os.Exit(1)
 	}
 }
 
