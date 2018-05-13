@@ -29,3 +29,6 @@ run:
 	./$(BINARY_NAME) list
 	./$(BINARY_NAME) do 1
 	./$(BINARY_NAME) list
+	./$(BINARY_NAME) completed
+	./$(BINARY_NAME) rm 1
+	./$(BINARY_NAME) completed

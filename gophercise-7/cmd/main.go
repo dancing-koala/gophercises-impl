@@ -28,7 +28,11 @@ func main() {
 
 	switch command {
 	case "list":
-		listTasks()
+		listNotDoneTasks()
+		break
+
+	case "completed":
+		listDoneTasks()
 		break
 
 	case "add":
@@ -39,6 +43,13 @@ func main() {
 	case "do":
 		taskId := os.Args[2]
 		doTask(taskId)
+		break
+
+	case "rm":
+		taskId := os.Args[2]
+		removeTask(taskId)
+		break
+
 		break
 
 	default:
@@ -68,7 +79,7 @@ Use "task [command] --help" for more information about a command.
 `)
 }
 
-func listTasks() {
+func listNotDoneTasks() {
 	tasks, err := repo.ListNotDoneTasks()
 
 	handleErr(err)
@@ -83,12 +94,37 @@ func listTasks() {
 	}
 }
 
+func listDoneTasks() {
+	tasks, err := repo.ListDoneTasks()
+
+	handleErr(err)
+
+	if len(tasks) == 0 {
+		fmt.Println("You have no completed task in your list.")
+		return
+	}
+
+	fmt.Println("You have the following tasks:")
+
+	for _, task := range tasks {
+		fmt.Printf("%d. %s\n", task.Id, task.Name)
+	}
+}
+
 func addTask(taskName string) {
 	err := repo.AddTask(taskName)
 
 	handleErr(err)
 
 	fmt.Printf("Added %q to your task list.\n", taskName)
+}
+
+func removeTask(taskId string) {
+	task, err := repo.RemoveTask(taskId)
+
+	handleErr(err)
+
+	fmt.Printf("You have removed task %q.\n", task.Name)
 }
 
 func doTask(taskId string) {

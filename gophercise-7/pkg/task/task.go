@@ -38,12 +38,18 @@ func NewRepository(db *bolt.DB) *TaskRepository {
 }
 
 func (tr *TaskRepository) ListNotDoneTasks() ([]Task, error) {
-	return listTasks(tr.db, func(task Task) bool {
+	return listTasks(tr.db, func(task *Task) bool {
 		return !task.Done
 	})
 }
 
-func listTasks(db *bolt.DB, filter func(Task) bool) ([]Task, error) {
+func (tr *TaskRepository) ListDoneTasks() ([]Task, error) {
+	return listTasks(tr.db, func(task *Task) bool {
+		return task.Done
+	})
+}
+
+func listTasks(db *bolt.DB, filter func(*Task) bool) ([]Task, error) {
 	tasks := make([]Task, 0, 32)
 
 	dbErr := db.View(func(tx *bolt.Tx) error {
@@ -61,7 +67,7 @@ func listTasks(db *bolt.DB, filter func(Task) bool) ([]Task, error) {
 
 			json.Unmarshal(val, &task)
 
-			if task.Done {
+			if !filter(task) {
 				continue
 			}
 
@@ -111,6 +117,45 @@ func (tr *TaskRepository) AddTask(taskName string) error {
 	return dbErr
 }
 
+func (tr *TaskRepository) RemoveTask(taskId string) (*Task, error) {
+
+	task := &Task{}
+
+	dbErr := tr.db.Update(func(tx *bolt.Tx) error {
+
+		b := tx.Bucket(bucketName)
+
+		if b == nil {
+			return errors.New("Task not found: " + taskId)
+		}
+
+		id, err := strconv.ParseUint(taskId, 10, 64)
+
+		if err != nil {
+			return err
+		}
+
+		key := itob(id)
+		val := b.Get(key)
+
+		if val == nil {
+			return errors.New("Task not found: " + taskId)
+		}
+
+		err = json.Unmarshal(val, &task)
+
+		if err != nil {
+			return err
+		}
+
+		b.Delete(key)
+
+		return nil
+	})
+
+	return task, dbErr
+}
+
 func (tr *TaskRepository) DoTask(taskId string) (*Task, error) {
 
 	task := &Task{}
@@ -136,7 +181,11 @@ func (tr *TaskRepository) DoTask(taskId string) (*Task, error) {
 			return errors.New("Task not found: " + taskId)
 		}
 
-		json.Unmarshal(val, &task)
+		err = json.Unmarshal(val, &task)
+
+		if err != nil {
+			return err
+		}
 
 		if task.Done {
 			return errors.New(fmt.Sprintf("Task %q already done!\n", task.Name))
