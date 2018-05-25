@@ -3,7 +3,7 @@ GORUN=$(GOCMD) run
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
-BINARY_NAME=quizz
+BINARY_NAME=deck
 
 
 all: build test
