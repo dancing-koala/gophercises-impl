@@ -113,3 +113,29 @@ func shuffle(deck []Card) {
 		deck[i], deck[j] = deck[j], deck[i]
 	}
 }
+
+func (c Card) String() string {
+
+	var family string
+
+	switch c.Family {
+	case SPADE:
+		family = "\u2660"
+		break
+
+	case DIAMOND:
+		family = "\u2666"
+		break
+
+	case HEART:
+		family = "\u2663"
+		break
+
+	case CLUB:
+		family = "\u2665"
+		break
+
+	}
+
+	return fmt.Sprintf("[%s %s]", c.Symbol(), family)
+}
